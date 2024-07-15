@@ -1,9 +1,4 @@
-const stripeConstant = {
-  stripeConfig: {
-    currency: "usd",
-    mode: "payment",
-
-  },
+const globalConstant = {
 };
 
-module.exports = { stripeConstant };
+module.exports = { globalConstant };

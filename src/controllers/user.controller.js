@@ -69,7 +69,7 @@ const signUp = async (req, res, next) => {
     return res.json(
       successResponse(
         responseData,
-        "USER_CREATED_SUCCESSFULLY",
+        "USER_REGISTERED_SUCCESSFULLY",
         httpsStatusCodes.CREATED,
         httpResponses.CREATED
       )

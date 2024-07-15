@@ -31,10 +31,6 @@ i18n.configure({
 
 app.use(i18n.init);
 app.use("/api/v1", express.static("public"), require("./src/routes/api/v1"));
-app.set("view engine", "ejs");
-app.use("/", (req, res) => {
-  res.render("index.ejs");
-});
 app.use((req, res, next) => {
   res.__ = setLocalLang;
   next();

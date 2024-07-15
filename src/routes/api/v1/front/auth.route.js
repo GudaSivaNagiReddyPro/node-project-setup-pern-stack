@@ -1,15 +1,14 @@
 const express = require("express");
 const {
-  signUp,
   login,
   forgotPassword,
   resetPassword,
   verifyEmail,
   generateRefreshToken,
-} = require("../../../../controllers");
+} = require("../../../../controllers/auth.controller");
 const { validateInput } = require("../../../../utils/validate.util");
+
 const {
-  signUpSchema,
   loginSchema,
   forgetPasswordSchema,
   resetPasswordSchema,
@@ -20,11 +19,9 @@ const {
   isAuthentication,
 } = require("../../../../middlewares/authentication-middleware");
 const router = express.Router();
-router.post("/sign-up", validateInput(signUpSchema), signUp);
 router.post("/log-in", validateInput(loginSchema), login);
 router.post(
   "/forgot-password",
-  isAuthentication,
   validateInput(forgetPasswordSchema),
   forgotPassword
 );

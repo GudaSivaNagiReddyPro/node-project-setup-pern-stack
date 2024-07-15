@@ -83,9 +83,22 @@ const login = async (req, res, next) => {
       refresh_token_uuid: refreshTokenUUID,
       refresh_token_expireAt: refreshTokenTime,
     });
-    return res.json(successResponse(response, "LOGGED_IN_SUCCESSFULLY"));
+    return res.json(
+      successResponse(
+        response,
+        "LOGGED_IN_SUCCESSFULLY",
+        httpsStatusCodes.SUCCESS,
+        httpResponses.SUCCESS
+      )
+    );
   } catch (error) {
-    return res.json(errorResponse("SOME_THING_WENT_WRONG_WHILE_LOGIN"));
+    return res.json(
+      errorResponse(
+        "SOME_THING_WENT_WRONG_WHILE_LOGIN",
+        httpsStatusCodes.INTERNAL_SERVER_ERROR,
+        httpResponses.INTERNAL_SERVER_ERROR
+      )
+    );
   }
 };
 
@@ -130,7 +143,6 @@ const forgotPassword = async (req, res, next) => {
       token: jwtToken,
       expiresAt: expiresAtResponse,
     };
-
     // Construct Email Subject and Template
     const subject = "Password assistance";
 
@@ -255,9 +267,11 @@ const verifyEmail = async (req, res, next) => {
     const verifyToken = jwt.verify(token, jwtConfig.jwtSecret);
     if (!verifyToken) {
       return res.json(
-        "INVALID_VERIFY_TOKEN",
-        httpsStatusCodes.UNAUTHORIZED,
-        httpResponses.UNAUTHORIZED
+        errorResponse(
+          "INVALID_VERIFY_TOKEN",
+          httpsStatusCodes.UNAUTHORIZED,
+          httpResponses.UNAUTHORIZED
+        )
       );
     }
     // Check if user is already verified (ideally shouldn't be using token)
@@ -309,10 +323,12 @@ const generateRefreshToken = async (req, res, next) => {
     );
     if (!decodedToken) {
       // Invalid Refresh Token
-      return failure(
-        "REFRESH_TOKEN_NOT_FOUND",
-        httpsStatusCodes.UNAUTHORIZED,
-        httpResponses.UNAUTHORIZED
+      return res.json(
+        errorResponse(
+          "REFRESH_TOKEN_NOT_FOUND",
+          httpsStatusCodes.UNAUTHORIZED,
+          httpResponses.UNAUTHORIZED
+        )
       );
     }
     // Generate a New Access Token based on Decoded Data
@@ -371,7 +387,12 @@ const generateRefreshToken = async (req, res, next) => {
 
     // Success Response with Refresh Token Details
     return res.json(
-      successResponse(response, "SUCCESSFULLY_REFRESH_TOKEN_FETCHED")
+      successResponse(
+        response,
+        "SUCCESSFULLY_REFRESH_TOKEN_FETCHED",
+        httpsStatusCodes.SUCCESS,
+        httpResponses.SUCCESS
+      )
     );
   } catch (error) {
     return res.json(
